@@ -1,4 +1,4 @@
-const mongoose = requiere('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const pacientesSchema = new Schema({
@@ -21,7 +21,7 @@ const pacientesSchema = new Schema({
     sintomas: {
         type: String,
         trim: true
-    }
+    } 
 });
 
 module.export = mongoose.model('Paciente', pacientesSchema);
