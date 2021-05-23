@@ -39,11 +39,22 @@ exports.obtenerPaciente = async (request, response, next) => {
 exports.actualizarPaciente = async (request, response, next) => {
     try {
         const paciente = await Paciente.findOneAndUpdate(
-            { _id : request.params.id },
+            { _id: request.params.id },
             request.body,
             { new: true }
         )
         response.json(paciente);
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
+
+exports.eliminarPaciente = async (request, response, next) => {
+    try {
+        const eliminado = await Paciente.findOneAndDelete({ _id: request.params.id })
+        response.json(eliminado);
+        response.json({ mensaje: 'El paciente fue eliminado' });
     } catch (error) {
         console.log(error);
         next();
