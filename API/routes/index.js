@@ -9,11 +9,16 @@ module.exports = function(){
         pacienteController.obtenerPacientes
     )
 
+    // Obtener un paciente con dicho id
+    router.get('/pacientes/:id',
+        pacienteController.obtenerPaciente
+    )
 
     // Agrega nuevos pacientes via POST
     router.post('/pacientes', 
         pacienteController.nuevoCliente
     )
+
 
     return router;
 }
