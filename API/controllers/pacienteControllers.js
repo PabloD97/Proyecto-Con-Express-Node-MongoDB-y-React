@@ -25,3 +25,13 @@ exports.obtenerPacientes = async (request, response, next ) =>{
         next();
     }
 }
+
+exports.obtenerPaciente = async (request, response, next) =>{
+    try {
+        const paciente = await Paciente.findById(request.params.id);
+        response.json(paciente);
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
