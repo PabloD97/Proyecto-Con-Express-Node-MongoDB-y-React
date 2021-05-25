@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom'
 import clienteAxios from '../config/axios'
+import Swal from 'sweetalert2';
 
 
 const Cita = (props) => {
@@ -9,17 +10,37 @@ const Cita = (props) => {
         return null
     }
 
-    const { cita: { _id,nombre, propietario, fecha, hora, telefono, sintomas } } = props;
+    const { cita: { _id, nombre, propietario, fecha, hora, telefono, sintomas } } = props;
 
-    const eliminarCita = id =>{
-        clienteAxios.delete(`/pacientes/${id}`)
-            .then(respuesta => {
-                props.guardarConsulta(true);
-                props.history.push('/');
-            })
-            .catch(error => {
-                console.log(error)
-            })
+    const eliminarCita = id => {
+        Swal.fire({
+            title: 'Esta seguro de eliminar esta cita?',
+            text: "Una vez elimado, perdera su turno",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Alerta de eliminado
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+
+                clienteAxios.delete(`/pacientes/${id}`)
+                    .then(respuesta => {
+                        props.guardarConsulta(true);
+                        props.history.push('/');
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+        })
     }
 
     return (
@@ -53,7 +74,7 @@ const Cita = (props) => {
                                         type='button'
                                         className='text-uppercase py-2 px-5 font-weight-bold
                                     btn btn-danger col'
-                                        onClick={()=> eliminarCita(_id)}
+                                        onClick={() => eliminarCita(_id)}
                                     >
                                         Eliminar &times;
                                     </button>
