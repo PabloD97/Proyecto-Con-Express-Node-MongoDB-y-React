@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import clienteAxios from './config/axios'
 //Componentes
 import Pacientes from './components/Pacientes';
@@ -10,32 +10,38 @@ function App() {
 
   // State de la app
   const [citas, guardarCitas] = useState([]);
+  const [consultar, guardarConsulta] = useState(true);
 
-  useEffect(()=>{
-    const consultarAPI = () => {
-      clienteAxios.get('/pacientes')
-        .then(respuesta => {
-          guardarCitas(respuesta.data);
-        })
-        .catch(error => {
-          console.log(error)
-        })
+  useEffect(() => {
+    if (consultar) {
+      const consultarAPI = () => {
+        clienteAxios.get('/pacientes')
+          .then(respuesta => {
+            guardarCitas(respuesta.data);
+
+            guardarConsulta(false);
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+      consultarAPI();
+
     }
-    consultarAPI();
-  }, [] );
+  }, [consultar]);
 
   return (
     <Router>
       <Switch>
-        <Route 
+        <Route
           exact path="/"
           component={() => <Pacientes citas={citas} />}
         />
-        <Route 
+        <Route
           exact path="/nueva"
-          component={NuevaCita}
+          component={() => <NuevaCita guardarConsulta={guardarConsulta} />}
         />
-        <Route 
+        <Route
           exact path="/cita/:id"
           component={Cita}
         />
