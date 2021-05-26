@@ -1,0 +1,15 @@
+{
+  "name": "fullstackdesktopjs-electron",
+  "version": "1.0.0",
+  "description": "Aplicacion de Electron",
+  "main": "index.js",
+  "dependencies": {
+    "electron": "^13.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Pablo Damian Diaz",
+  "license": "ISC"
+}
